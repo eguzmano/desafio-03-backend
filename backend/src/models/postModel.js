@@ -16,3 +16,23 @@ export const createPostModel = async ({ titulo, img, descripcion }) => {
   const result = await pool.query(sqlQuery)
   return result.rows[0]
 }
+
+// put
+export const updatePostModel = async ({ titulo, img, descripcion, likes, id }) => {
+  const sqlQuery = {
+    text: 'UPDATE posts SET titulo = $1, img = $2, descripcion = $3, likes = $4 WHERE id = $5 RETURNING *',
+    values: [titulo, img, descripcion, likes, id]
+  }
+  const result = await pool.query(sqlQuery)
+  return result.rows
+}
+
+// delete
+export const deletePostModel = async (id) => {
+  const sqlQuery = {
+    text: 'DELETE FROM posts WHERE id = $1',
+    values: [id]
+  }
+  const result = await pool.query(sqlQuery)
+  return result.rows
+}
